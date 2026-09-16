@@ -6,8 +6,8 @@ Redesigning a B.Tech CSE (R22, JNTUH) degree for students graduating in 2030.
 
 ## Read it here
 
-- 🔗 **Live interactive report:** [add your published link here]
-- 📄 **PDF version:** [`assets/CSE_R22_to_2030_Curriculum_Audit.pdf`](assets/CSE_R22_to_2030_Curriculum_Audit.pdf)
+- 🔗 Live interactive report:
+- 📄 PDF version: [`assets/CSE_R22_to_2030_Curriculum_Audit.pdf`](assets/CSE_R22_to_2030_Curriculum_Audit.pdf)
 
 ## What this is
 
