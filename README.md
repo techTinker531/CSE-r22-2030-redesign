@@ -1,6 +1,6 @@
 # CSE R22 → 2030: A Curriculum Audit
 
-Round 2 submission for HKAIVERSE — redesigning a B.Tech CSE (R22, JNTUH) degree for students graduating in 2030.
+Redesigning a B.Tech CSE (R22, JNTUH) degree for students graduating in 2030.
 
 **Candidate:** Poojitha · **Branch:** B.Tech CSE · **Regulation:** R22 · **Target grad year:** 2030
 
