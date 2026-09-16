@@ -28,15 +28,13 @@ Every core subject in the R22 CSE syllabus, labeled **KEEP / UPDATE / REDUCE / A
 
 ```
 │
-├── index.html
-│
 ├── assets/
 │   └── CSE_R22_to_2030_Curriculum_Audit.pdf
 │
 ├── evidence/
+│   ├── ai-capability-test.md
 │   ├── human-conversation.md
-│   ├── job-postings.md
-│   └── ai-capability-test.md
+│   └── job-postings.md
 │
 ├── sections/
 │   ├── 01-current-degree.md
@@ -48,7 +46,11 @@ Every core subject in the R22 CSE syllabus, labeled **KEEP / UPDATE / REDUCE / A
 │   ├── 07-what-would-make-me-wrong.md
 │   └── 08-ai-claim-checked.md
 │
-└── README.md
+├── CSE_R22_to_2030_Curriculum_Audit.pdf
+│
+├── README.md
+│
+└── index.html
 
 ```
 
