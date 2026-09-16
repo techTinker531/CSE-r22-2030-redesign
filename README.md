@@ -27,7 +27,17 @@ Every core subject in the R22 CSE syllabus, labeled **KEEP / UPDATE / REDUCE / A
 ## Repo structure
 
 ```
-├── README.md
+│
+├── index.html
+│
+├── assets/
+│   └── CSE_R22_to_2030_Curriculum_Audit.pdf
+│
+├── evidence/
+│   ├── human-conversation.md
+│   ├── job-postings.md
+│   └── ai-capability-test.md
+│
 ├── sections/
 │   ├── 01-current-degree.md
 │   ├── 02-whats-taught.md
@@ -37,12 +47,9 @@ Every core subject in the R22 CSE syllabus, labeled **KEEP / UPDATE / REDUCE / A
 │   ├── 06-2030-redesign.md
 │   ├── 07-what-would-make-me-wrong.md
 │   └── 08-ai-claim-checked.md
-├── evidence/
-│   ├── job-postings.md
-│   ├── ai-capability-test.md
-│   └── human-conversation.md
-└── assets/
-    └── CSE_R22_to_2030_Curriculum_Audit.pdf
+│
+└── README.md
+
 ```
 
 ## Key findings (short version)
