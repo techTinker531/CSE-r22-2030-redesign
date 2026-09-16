@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE R22 → 2030: A Curriculum Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F5EF;
+    --paper-raised:#FFFFFF;
+    --ink:#1B1E1C;
+    --ink-soft:#565951;
+    --line:#D9D4C6;
+    --keep:#2F6E4E;
+    --keep-bg:#E7F0E9;
+    --update:#23508F;
+    --update-bg:#E7EDF6;
+    --reduce:#9C5D1E;
+    --reduce-bg:#F5EAE0;
+    --add:#6B3F9E;
+    --add-bg:#EEE7F5;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#15170F ;
+      --paper-raised:#1D2018;
+      --ink:#ECE8DD;
+      --ink-soft:#A9A594;
+      --line:#3A3D32;
+      --keep-bg:#1E2E23;
+      --update-bg:#1B2536;
+      --reduce-bg:#332318;
+      --add-bg:#2A2033;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#15170F;
+    --paper-raised:#1D2018;
+    --ink:#ECE8DD;
+    --ink-soft:#A9A594;
+    --line:#3A3D32;
+    --keep-bg:#1E2E23;
+    --update-bg:#1B2536;
+    --reduce-bg:#332318;
+    --add-bg:#2A2033;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:0 20px 96px;}
+
+  /* header */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:48px 20px 32px;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:'Newsreader', Georgia, serif;
+    font-weight:500;
+    font-size:clamp(30px, 5vw, 46px);
+    line-height:1.08;
+    margin:0 0 18px;
+    max-width:14ch;
+  }
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 28px;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .meta-row span b{color:var(--ink); font-weight:500;}
+
+  h2{
+    font-family:'Newsreader', Georgia, serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:26px;
+    margin:64px 0 6px;
+  }
+  .section-sub{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 24px;
+    max-width:58ch;
+  }
+  p{max-width:68ch;}
+
+  /* findings list */
+  .findings{list-style:none; margin:0; padding:0; border-top:1px solid var(--line);}
+  .findings li{
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    display:grid;
+    grid-template-columns:22px 1fr;
+    gap:12px;
+    font-size:15px;
+  }
+  .findings li::before{
+    content:"—";
+    color:var(--ink-soft);
+  }
+
+  /* status table */
+  table.status{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    margin-top:8px;
+  }
+  table.status th{
+    text-align:left;
+    font-weight:500;
+    color:var(--ink-soft);
+    font-size:12.5px;
+    padding:8px 12px 8px 0;
+    border-bottom:1px solid var(--line);
+  }
+  table.status td{
+    padding:10px 12px 10px 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+
+  /* tag */
+  .tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    font-weight:500;
+    padding:3px 9px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .tag.KEEP{color:var(--keep); background:var(--keep-bg);}
+  .tag.UPDATE{color:var(--update); background:var(--update-bg);}
+  .tag.REDUCE{color:var(--reduce); background:var(--reduce-bg);}
+  .tag.ADD{color:var(--add); background:var(--add-bg);}
+
+  /* filter chips */
+  .filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:0 0 20px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    padding:7px 14px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    border-radius:2px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .chip[aria-pressed="true"]{
+    color:var(--ink);
+    border-color:var(--ink);
+    background:var(--paper-raised);
+    font-weight:500;
+  }
+  .chip .count{color:var(--ink-soft); margin-left:5px;}
+
+  /* subject table */
+  .subj-table{
+    border-top:1px solid var(--line);
+  }
+  .subj-row{
+    display:grid;
+    grid-template-columns:28px 1fr 92px;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .subj-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding-top:3px;
+  }
+  .subj-name{font-weight:500; font-size:15.5px; margin:0 0 4px;}
+  .subj-ev{font-size:13.5px; color:var(--ink-soft); margin:0; max-width:56ch;}
+  .subj-row .tag{justify-self:end;}
+  .subj-row[hidden]{display:none;}
+  .empty-note{
+    padding:24px 0;
+    color:var(--ink-soft);
+    font-size:14px;
+    display:none;
+  }
+
+  /* generic data table */
+  table.data{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+    margin-top:4px;
+  }
+  table.data th{
+    text-align:left;
+    font-weight:500;
+    color:var(--ink-soft);
+    font-size:12px;
+    padding:0 14px 10px 0;
+    border-bottom:1px solid var(--ink);
+  }
+  table.data td{
+    padding:12px 14px 12px 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.data td:first-child, table.data th:first-child{padding-left:0;}
+  .scrollx{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .scrollx table{min-width:560px;}
+
+  /* redesign columns */
+  .redesign-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    border-top:1px solid var(--line);
+  }
+  @media(min-width:700px){
+    .redesign-grid{grid-template-columns:1fr 1fr;}
+  }
+  .rd-block{padding:20px 0; border-bottom:1px solid var(--line);}
+  @media(min-width:700px){
+    .rd-block{padding:20px 24px 20px 0;}
+    .rd-block:nth-child(even){padding-left:24px; padding-right:0; border-left:1px solid var(--line);}
+  }
+  .rd-head{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.02em;
+    margin:0 0 10px;
+  }
+  .rd-block ul{margin:0; padding-left:18px; font-size:14px;}
+  .rd-block li{margin-bottom:8px;}
+
+  .budget{
+    margin-top:28px;
+    padding:18px 0 0;
+    border-top:1px solid var(--line);
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .budget-bar{
+    position:relative;
+    height:8px;
+    background:var(--line);
+    border-radius:2px;
+    margin:10px 0;
+    overflow:hidden;
+  }
+  .budget-fill{
+    position:absolute; left:0; top:0; bottom:0;
+    background:var(--update);
+    width:7.5%;
+  }
+  .budget-cap{
+    position:absolute; top:-4px; bottom:-4px;
+    width:1px; background:var(--ink);
+  }
+
+  blockquote{
+    margin:0 0 18px;
+    padding:2px 0 2px 18px;
+    border-left:2px solid var(--line);
+    font-size:14.5px;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+  blockquote b{color:var(--ink); font-weight:500;}
+
+  .callout{
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    padding:18px 20px;
+    font-size:14px;
+    margin-top:16px;
+  }
+  .callout .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    margin-top:72px;
+    padding-top:24px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">HKAIVERSE — ROUND 2 — CURRICULUM REDESIGN FOR 2030</p>
+  <h1>Auditing a degree against the industry it feeds</h1>
+  <div class="meta-row">
+    <span>Candidate: <b>Poojitha</b></span>
+    <span>Branch: <b>B.Tech CSE</b></span>
+    <span>Regulation: <b>R22</b></span>
+    <span>Target grad year: <b>2030</b></span>
+    <span>Updated: <b>16 Sept 2026</b></span>
+  </div>
+</header>
+
+<section>
+  <h2>Status</h2>
+  <p class="section-sub">Eight sections, all evidence-backed. Two packaging items remain.</p>
+  <table class="status">
+    <tr><th>Section</th><th>Status</th></tr>
+    <tr><td>1 — Current degree</td><td>Done</td></tr>
+    <tr><td>2 — What's being taught</td><td>Done — all 8 semesters mapped, R22 vs R25 diff verified</td></tr>
+    <tr><td>3 — Subject labels</td><td>Done — 10 of 10</td></tr>
+    <tr><td>4 — 2026 field-change reality</td><td>Done</td></tr>
+    <tr><td>5 — Curriculum vs job postings</td><td>Done — 3 postings checked</td></tr>
+    <tr><td>6 — 2030 redesign</td><td>Done — credit budget resolved</td></tr>
+    <tr><td>a/b — AI capability test</td><td>Done — 6 subjects tested</td></tr>
+    <tr><td>Human conversation</td><td>Done — 2024 grad, Platform Engineer</td></tr>
+    <tr><td>7 — What would make me wrong</td><td>Done</td></tr>
+    <tr><td>8 — AI claim checked & found wrong</td><td>Done</td></tr>
+    <tr><td>GitHub repo</td><td>Not started</td></tr>
+    <tr><td>Live report + interactive feature</td><td>This page</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Key findings</h2>
+  <ul class="findings">
+    <li>Stats moved into the same semester as ML under R25, breaking a prerequisite gap that R22 kept at three semesters.</li>
+    <li>DevOps structure and credits are untouched in R25 — the problem is tooling. Syllabus still teaches Jenkins, manual kubectl, Selenium; industry has moved to GitHub Actions, ArgoCD, Terraform, Prometheus+Grafana, Trivy+SonarQube.</li>
+    <li>The HKAIVERSE brief's claim that R25 cut DevOps from 4 credits to 1 does not hold — checked against the official bulletin and the uploaded R25 PDF, both show it unchanged.</li>
+    <li>Compiler Design and Formal Languages were merged in R25. Grad interview reframed this from REDUCE to UPDATE — the theory (AST, optimization) still matters, but the delivery should move to modern tooling instead of hand-written parsers.</li>
+    <li>Both open electives on offer are cross-branch, non-CS subjects — evidence the open elective basket isn't doing anything for CS depth.</li>
+    <li>Computer Networks flipped from KEEP to UPDATE after the grad described labs still running RIP in Packet Tracer against a real world of VPCs, load balancers, and edge networking.</li>
+    <li>Git is a double-sourced gap: flagged independently by a job posting and by the grad, who force-pushed to main on day one with no rebase or PR-review training behind them.</li>
+    <li>Cloud Computing already exists as a professional elective in R22 — the fix is promoting it to core, not adding a new course.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Section 3 — Subject labels</h2>
+  <p class="section-sub">Every core subject, one label, one line of evidence. Filter by label.</p>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="subj-table" id="subjTable"></div>
+  <p class="empty-note" id="emptyNote">No subjects under this filter.</p>
+</section>
+
+<section>
+  <h2>Section 4 — 2026 reality</h2>
+  <p class="section-sub">What the syllabus assumes about each domain, against what's actually true in 2026.</p>
+  <div class="scrollx">
+  <table class="data">
+    <tr><th>Domain</th><th>2022 assumption</th><th>2026 reality</th></tr>
+    <tr><td>AI / ML</td><td>Classical ML + basic AI</td><td>LLMs, RAG, agentic workflows dominant</td></tr>
+    <tr><td>DevOps</td><td>Jenkins, manual kubectl, Selenium</td><td>GitHub Actions, ArgoCD GitOps, Terraform, Trivy</td></tr>
+    <tr><td>Databases</td><td>RDBMS-only (SQL)</td><td>Vector DBs standard for RAG apps</td></tr>
+    <tr><td>Security</td><td>Perimeter / crypto-only</td><td>Zero-trust, cloud IAM, LLM security</td></tr>
+    <tr><td>Compilers</td><td>Manual parser theory</td><td>LLVM/ANTLR/ESLint-style tooling-first practice</td></tr>
+    <tr><td>Software delivery</td><td>Waterfall/Agile theory</td><td>AI coding agents default — 90% weekly, 68% daily use (JetBrains 2026 Dev Ecosystem Survey, 15,000+ devs)</td></tr>
+    <tr><td>Networking</td><td>Static TCP/IP / RIP</td><td>VPCs, load balancers, Cloudflare-style edge</td></tr>
+    <tr><td>Stats/ML sequencing</td><td>Prerequisite-before-use</td><td>R25 broke this — Stats and ML now co-placed</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>Section 5 — Curriculum vs. industry</h2>
+  <p class="section-sub">Three real 2026 job postings checked against current coverage.</p>
+  <ul class="findings" style="margin-bottom:28px;">
+    <li><span><b>JD1</b> — Glassdoor India, Sept 2026: Azure, Go, Node.js, React, TypeScript/NPM, CI/CD, cloud infra, Kubernetes, Ansible.</span></li>
+    <li><span><b>JD2</b> — Job Zone Career multi-company drive, Sept 2026: Java, C#, .NET, Python, React, Angular, Spring Boot, Microservices, Kafka, REST APIs, Kubernetes, Azure, Git, CI/CD, IoT.</span></li>
+    <li><span><b>JD3</b> — AmQuest 2026 skills guide, May 2026: DSA, version control, APIs, cloud basics, testing named as "the floor"; AI/ML, cybersecurity, DevOps expected by mid/senior; GenAI/Agentic AI as the high-pay track.</span></li>
+  </ul>
+  <div class="scrollx">
+  <table class="data">
+    <tr><th>Curriculum area</th><th>R22 coverage</th><th>Gap found</th></tr>
+    <tr><td>Cloud (Azure/AWS/GCP)</td><td>Not in core — exists as elective</td><td>Partial — promote elective to core</td></tr>
+    <tr><td>Kubernetes / CI-CD</td><td>Manual kubectl, Jenkins</td><td>Confirms DevOps UPDATE</td></tr>
+    <tr><td>Git / version control</td><td>Never formally taught</td><td>Double-sourced — JD3 + grad interview</td></tr>
+    <tr><td>Microservices / REST APIs</td><td>Not covered</td><td>Full gap — explicit in JD2</td></tr>
+    <tr><td>AI/ML/GenAI</td><td>Covered, classical only</td><td>Confirms AI UPDATE</td></tr>
+    <tr><td>DSA / OOP / Algorithms</td><td>Strong, unchanged</td><td>No gap — validates KEEP</td></tr>
+    <tr><td>Databases</td><td>RDBMS-only</td><td>Mild — matches DBMS UPDATE</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>Section 6 — 2030 redesign proposal</h2>
+  <p class="section-sub">Budget: 160 total credits, ±20–25% change cap → 32–40 credits may shift.</p>
+
+  <div class="redesign-grid">
+    <div class="rd-block">
+      <p class="rd-head">ADD — funded by Compiler Design merge savings (3cr freed)</p>
+      <ul>
+        <li>Git & Version Control (formal module) — 1cr — double-sourced gap</li>
+        <li>Microservices & REST API Design — 2cr — explicit JD2 requirement</li>
+      </ul>
+    </div>
+    <div class="rd-block">
+      <p class="rd-head">REDUCE</p>
+      <ul>
+        <li>Organizational Behaviour — keep R25's drop</li>
+        <li>Open Electives — restrict to CS-only options</li>
+      </ul>
+    </div>
+    <div class="rd-block">
+      <p class="rd-head">UPDATE — same credit slot, refreshed content</p>
+      <ul>
+        <li>Cloud Computing — promote from PE IV to core, refresh for multi-cloud/Terraform</li>
+        <li>DevOps tooling — GitHub Actions, ArgoCD, Terraform, Prometheus</li>
+        <li>AI core — add LLM/RAG/agents module</li>
+        <li>DBMS — add NoSQL/vector DB module</li>
+        <li>Cryptography — add cloud security/zero-trust module</li>
+        <li>Computer Networks — VPCs/load balancers/edge, replacing RIP-only focus</li>
+        <li>Compiler Design — modern tooling lens (ESLint/Babel-style)</li>
+        <li>ML/Statistics — fix sequencing, move Stats to I-II/II-I</li>
+      </ul>
+    </div>
+    <div class="rd-block">
+      <p class="rd-head">KEEP</p>
+      <ul>
+        <li>Data Structures & Algorithms</li>
+        <li>Operating Systems</li>
+        <li>Design & Analysis of Algorithms</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="budget">
+    <div>Net credit shift against the cap</div>
+    <div class="budget-bar"><div class="budget-fill"></div><div class="budget-cap" style="left:25%"></div></div>
+    <div>~3cr shifted (Git + Microservices, funded by the Compiler Design merge) — well inside the 32–40cr cap. Line marks the cap boundary.</div>
+  </div>
+</section>
+
+<section>
+  <h2>AI capability test</h2>
+  <p class="section-sub">Six subjects, one task each. The same pattern held every time: AI resolves syntax; it doesn't resolve judgment.</p>
+  <div class="scrollx">
+  <table class="data">
+    <tr><th>Subject</th><th>Task tested</th><th>Result</th></tr>
+    <tr><td>DSA</td><td>Balanced BST insert/delete</td><td>Solved instantly — doesn't replace tradeoff reasoning</td></tr>
+    <tr><td>DevOps</td><td>GitHub Actions CI/CD w/ Docker</td><td>Working YAML in one shot — confirms UPDATE toward architecture, not syntax</td></tr>
+    <tr><td>Machine Learning</td><td>Build & tune a classifier</td><td>Code yes, tuning judgment generic/unjustified</td></tr>
+    <tr><td>Compiler Design</td><td>Lexer/parser for a toy language</td><td>Works, struggles on grammar ambiguity — supports tooling-first UPDATE</td></tr>
+    <tr><td>Cryptography</td><td>Implement RSA key exchange</td><td>Solves textbook RSA — real PKI/system design still needs humans</td></tr>
+    <tr><td>Operating Systems</td><td>Explain scheduling tradeoffs for a workload</td><td>Generic correct answer, no context-specific reasoning — confirms KEEP</td></tr>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>Human conversation</h2>
+  <p class="section-sub">2024 CSE grad, now Platform Engineer, Hyderabad. Anonymous, ~20 minutes.</p>
+  <blockquote><b>Most outdated course on day one:</b> DevOps lab. College taught Jenkins freestyle jobs, docker run, Selenium IDE. First week: debugging a GitHub Actions YAML and an out-of-sync ArgoCD, having never opened a workflows file before.</blockquote>
+  <blockquote><b>Day-one skill the degree never taught:</b> Git beyond commit/push — rebasing, merge conflicts, PR reviews. Force-pushed to main on day one; reverted by their lead.</blockquote>
+  <blockquote><b>More valuable in hindsight than it felt then:</b> Operating Systems — semaphores and paging now map directly to pods getting OOMKilled or CPU-throttled in Kubernetes.</blockquote>
+  <blockquote><b>One credit they'd add for 2030:</b> "Shipping with GenAI + Cloud" — practical RAG, vector DBs, prompt evaluation, cost control, deploying via Terraform, handling API keys and rate limits.</blockquote>
+  <blockquote><b>Did theory-heavy courses hold up?</b> DAA — yes, directly useful for reasoning about production timeouts. Compiler Design's hand-written parser work — rarely used, but AST/optimization concepts still matter if taught through tools like Babel/ESLint.</blockquote>
+</section>
+
+<section>
+  <h2>Section 7 — What would make this wrong</h2>
+  <ul class="findings">
+    <li>The ML/Stats sequencing flaw is wrong if R25 faculty confirm the co-placement was a deliberate just-in-time teaching choice.</li>
+    <li>The DevOps staleness argument is wrong if placement data shows most grads don't enter cloud-native roles.</li>
+    <li>The AI capability test's pattern is wrong if harder, multi-step agentic tasks show AI also handling judgment-based work.</li>
+    <li>The 20–25% credit cap could be too conservative — but the human conversation points to tooling-level gaps, not whole missing domains, which suggests the cap holds.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Section 8 — AI claim checked, found wrong</h2>
+  <div class="callout">
+    <p class="label">CLAIM CHECKED</p>
+    <p style="margin:0 0 10px;">The HKAIVERSE brief's worked example states R25 cut DevOps from 4 credits to a 1-credit skill course.</p>
+    <p class="label">METHOD</p>
+    <p style="margin:0 0 10px;">Cross-checked against two primary sources: the official JNTUH-hosted R25 bulletin PDF (accessed 15 Sept 2026) and the uploaded R25 syllabus PDF.</p>
+    <p class="label">FINDING</p>
+    <p style="margin:0;">Both sources show DevOps unchanged at 3+1 credits (4cr total) in III-I — the brief's claim does not hold. One caveat: confirm the exact brief PDF version before final submission.</p>
+  </div>
+</section>
+
+<footer>
+  Remaining before submission: GitHub repository (packaging all sections and evidence sources), and re-verifying the exact HKAIVERSE brief PDF version behind Section 8.
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var subjects = [
+    {n:1, name:"Machine Learning", label:"UPDATE", ev:"Stats prerequisite moved into the same semester as ML in R25, breaking sequencing that worked in R22."},
+    {n:2, name:"DevOps", label:"UPDATE", ev:"Structure and credits are fine; tooling is stale. Grad confirms: never opened a .github/workflows file before the job."},
+    {n:3, name:"Compiler Design + Formal Languages", label:"UPDATE", ev:"Keep AST/optimization concepts, teach via modern tooling (ESLint/Babel-style) instead of hand-written parsers."},
+    {n:4, name:"Artificial Intelligence", label:"UPDATE", ev:"Core AI stays classical; 2026 job postings want LLM APIs, RAG, agents."},
+    {n:5, name:"Design & Analysis of Algorithms", label:"KEEP", ev:"Complexity/DP/graph algorithms remain fixed in every 2026 SDE interview loop."},
+    {n:6, name:"Operating Systems", label:"KEEP", ev:"Grad confirms: OOMKilled pods and CPU throttling in K8s are literally OS concepts in practice."},
+    {n:7, name:"Database Management Systems", label:"UPDATE", ev:"RDBMS/SQL-only; 2026 postings need NoSQL and vector DBs for RAG."},
+    {n:8, name:"Computer Networks", label:"UPDATE", ev:"Flipped from KEEP after grad interview: RIP/Packet Tracer labs vs. real VPCs, load balancers, Cloudflare."},
+    {n:9, name:"Cryptography & Network Security", label:"UPDATE", ev:"Classical crypto only; 2026 postings emphasize cloud security — IAM, zero-trust."},
+    {n:10, name:"Organizational Behaviour (IV-II)", label:"REDUCE", ev:"R25 already dropped it as core; not listed in any 2026 job posting checked."}
+  ];
+
+  var labels = ["ALL","KEEP","UPDATE","REDUCE","ADD"];
+  var filterEl = document.getElementById('filters');
+  var tableEl = document.getElementById('subjTable');
+  var emptyEl = document.getElementById('emptyNote');
+  var current = "ALL";
+
+  function counts(){
+    var c = {ALL: subjects.length, KEEP:0, UPDATE:0, REDUCE:0, ADD:0};
+    subjects.forEach(function(s){ c[s.label]++; });
+    return c;
+  }
+
+  function renderFilters(){
+    var c = counts();
+    filterEl.innerHTML = "";
+    labels.forEach(function(l){
+      var b = document.createElement('button');
+      b.className = 'chip';
+      b.type = 'button';
+      b.setAttribute('aria-pressed', l===current ? 'true':'false');
+      b.innerHTML = l + '<span class="count">' + c[l] + '</span>';
+      b.addEventListener('click', function(){
+        current = l;
+        renderFilters();
+        renderTable();
+      });
+      filterEl.appendChild(b);
+    });
+  }
+
+  function renderTable(){
+    tableEl.innerHTML = "";
+    var shown = 0;
+    subjects.forEach(function(s){
+      var match = (current==="ALL") || (s.label===current);
+      if(!match) return;
+      shown++;
+      var row = document.createElement('div');
+      row.className = 'subj-row';
+      row.innerHTML =
+        '<div class="subj-num">' + String(s.n).padStart(2,'0') + '</div>' +
+        '<div><p class="subj-name">' + s.name + '</p><p class="subj-ev">' + s.ev + '</p></div>' +
+        '<div><span class="tag ' + s.label + '">' + s.label + '</span></div>';
+      tableEl.appendChild(row);
+    });
+    emptyEl.style.display = shown===0 ? 'block' : 'none';
+  }
+
+  renderFilters();
+  renderTable();
+})();
+</script>
+</body>
+</html>
