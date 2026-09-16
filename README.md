@@ -2,7 +2,7 @@
 
 Redesigning a B.Tech CSE (R22, JNTUH) degree for students graduating in 2030.
 
-**Candidate:** Poojitha · **Branch:** B.Tech CSE · **Regulation:** R22 · **Target grad year:** 2030
+· **Branch:** B.Tech CSE · **Regulation:** R22 · **Target grad year:** 2030
 
 ## Read it here
 
